@@ -1,7 +1,7 @@
 package api.financas;
 
 import api.financas.application.exception.DuplicatedEmailError;
-import api.financas.application.user.UserCreateDTO;
+import api.financas.application.user.dtos.UserCreateDTO;
 import api.financas.application.user.UserService;
 import api.financas.domain.entities.User;
 import api.financas.domain.interfaces.IPasswordHasher;
@@ -39,7 +39,7 @@ class UserServiceTest {
     UserCreateDTO input = new UserCreateDTO("Alexandre", Email.of("alex@gmail.com"), "senha123");
     PasswordHash hash = new PasswordHash("hash-da-senha");
 
-    when(passwordHasher.hash("senha123")).thenReturn(hash);
+    when(passwordHasher.enconde("senha123")).thenReturn(hash);
     when(userRepository.save(any(User.class)))
         .thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -51,7 +51,7 @@ class UserServiceTest {
     assertEquals("alex@gmail.com", resultado.getEmail().value());
     assertEquals(hash, resultado.getPassword());
 
-    verify(passwordHasher).hash("senha123");
+    verify(passwordHasher).enconde("senha123");
     verify(userRepository).save(any(User.class));
   }
 

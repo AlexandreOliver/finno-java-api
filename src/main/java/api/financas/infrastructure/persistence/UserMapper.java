@@ -20,6 +20,7 @@ public class UserMapper {
   }
 
   public static User mapper(UserEntity entity) {
+    System.out.println("Entra no mapper");
     return User.builder()
         .id(entity.getId())
         .email(Email.of(entity.getEmail()))

@@ -5,16 +5,21 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,5 +48,18 @@ public class UserEntity {
   @NotNull
   @Column(name = "updated_at", nullable = false)
   private Instant updatedAt;
+
+  @Override
+  public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of();
+  }
+
+  @Override
+  public @NonNull String getUsername() {
+    return this.email;
+  }
+
+  @Override
+  public String getPassword() {return this.password;}
 
 }

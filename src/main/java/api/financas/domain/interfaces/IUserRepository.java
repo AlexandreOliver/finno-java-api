@@ -4,6 +4,7 @@ import api.financas.domain.entities.User;
 import api.financas.domain.valueobject.Email;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserRepository {
@@ -11,4 +12,5 @@ public interface IUserRepository {
   void delete(UUID id);
   List<User> findAll();
   boolean existsByEmail(Email email);
+  Optional<User> findByEmail(Email email);
 }

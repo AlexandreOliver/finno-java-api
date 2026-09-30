@@ -1,9 +1,11 @@
 package api.financas.application.user;
 
+import api.financas.application.user.dtos.UserCreateDTO;
 import api.financas.application.exception.DuplicatedEmailError;
 import api.financas.domain.entities.User;
 import api.financas.domain.interfaces.IPasswordHasher;
 import api.financas.domain.interfaces.IUserRepository;
+import api.financas.domain.valueobject.PasswordHash;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,11 @@ public class UserService {
 
     User.UserBuilder builder = User.builder();
 
+    PasswordHash passwordHashed = passwordHasher.enconde(userCreateDTO.rawPassword());
+
     builder.name(userCreateDTO.name());
     builder.email(userCreateDTO.email());
-    builder.password(passwordHasher.hash(userCreateDTO.rawPassword()));
+    builder.password(passwordHashed);
     builder.createdAt(Instant.now());
     builder.updatedAt(Instant.now());
 

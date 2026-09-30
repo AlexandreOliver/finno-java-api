@@ -6,5 +6,9 @@ public record PasswordHash(String value) {
       throw new IllegalArgumentException("Forneça a hash da senha");
     }
   }
+
+  public static PasswordHash of(String value) {
+    return new PasswordHash(value);
+  }
 }
 

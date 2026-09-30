@@ -1,4 +1,4 @@
-package api.financas.application.user;
+package api.financas.application.user.dtos;
 
 import api.financas.domain.valueobject.Email;
 

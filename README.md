@@ -4,7 +4,7 @@ API REST para Sistema de Gestão Financeira Pessoal. Projeto de portfólio const
 
 > Esse Projeto é uma implementação em java do [finno](https://github.com/AlexandreOliver/finno)
 
-> Projeto single-user (sem autenticação na versão atual), pensado como base para uma futura evolução multi-plataforma, incluindo aplicativo mobile.
+> API com autenticação stateless por JWT, pensada como base para uma evolução multi-plataforma, incluindo aplicativo mobile.
 
 ---
 
@@ -15,6 +15,7 @@ API REST para Sistema de Gestão Financeira Pessoal. Projeto de portfólio const
 - **Persistência:** Spring Data JPA + PostgreSQL
 - **Build:** Maven
 - **Ambiente local:** Docker Compose (PostgreSQL)
+- **Autenticação:** Spring Security + JWT (HS256)
 
 ---
 
@@ -42,6 +43,7 @@ api.financas
 ### Decisões de arquitetura relevantes
 
 - **Migrações**: Banco de dados versionado usando Flyway para garantir integridade
+- **Autenticação**: o caso de uso de login depende de uma porta de geração de token; emissão e validação JWT ficam na infraestrutura.
 
 ---
 
@@ -51,14 +53,22 @@ api.financas
 # 1. Subir o banco de dados
 docker compose up -d
 
-# 2. Configurar variáveis de ambiente (ver application.yml)
-#    - DB_URL, DB_USERNAME, DB_PASSWORD
+# 2. Configurar variáveis de ambiente
+#    - DB_USERNAME, DB_PASSWORD
+#    - JWT_SECRET: chave aleatória Base64 com pelo menos 256 bits
+#    - JWT_EXPIRATION_SECONDS (opcional; padrão 3600)
 
 # 3. Rodar a aplicação
 ./mvnw spring-boot:run
 ```
 
-A aplicação sobe em `http://localhost:8080` (porta configurável em `application.yml`).
+A chave JWT pode ser gerada com `openssl rand -base64 32`. Nunca use uma chave de exemplo em produção. A aplicação sobe em `http://localhost:8080` (porta configurável em `application.properties`).
+
+### Autenticação
+
+- `POST /api/v1/auth/register` - Para criar um usuario forneça `email`, `nome` e `senha`.
+- `POST /api/v1/auth/login` -  Login com `email` e `password` e retorna o accessToken.
+- Envie `Authorization: Bearer <accessToken>` nas demais rotas; sem token válido elas respondem `401`.
 
 ---
 

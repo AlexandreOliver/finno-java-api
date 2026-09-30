@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -43,5 +44,10 @@ public class UserRepository implements IUserRepository {
   @Override
   public boolean existsByEmail(Email email) {
     return this.jpaRepositoryUser.existsByEmail(email.value());
+  }
+
+  @Override
+  public Optional<User> findByEmail(Email email) {
+    return jpaRepositoryUser.findByEmail(email.value()).map(UserMapper::mapper);
   }
 }
