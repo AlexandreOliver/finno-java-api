@@ -19,6 +19,12 @@ API REST para Sistema de Gestão Financeira Pessoal. Projeto de portfólio const
 
 ---
 
+## Documentação
+
+ - [Docs](docs/README.md)
+
+---
+
 ## Arquitetura
 
 O código atual está organizado em `domain`, `application` e `infrastructure`.

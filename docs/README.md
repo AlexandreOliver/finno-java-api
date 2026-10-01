@@ -1,12 +1,15 @@
 # Documentação do Finno
 
-Este diretório registra o comportamento atual do sistema e as decisões que orientam sua evolução. A documentação deve acompanhar o codigo: descreva o que existe como **atual** e o que ainda e ideia como **proposta**.
+Este diretório registra o comportamento atual do sistema e as decisões que orientam sua evolução.
 
 ## Índice
 
 - [Roadmap](Roadmap.md): etapas sugeridas, sem datas ou compromissos implícitos.
 - [Fluxo de autenticacao](flows/authentication.md): registro, login e uso do token.
 - [Entidade User](Entities/User.md): atributos, regras e persistência.
+- [Entidade Account](Entities/Account.md): atributos, regras e persistência.
+- [Entidade Category](Entities/Category.md): atributos e relacionamento com movimentações.
+- [Entidade Transaction](Entities/Transaction.md): atributos e regras definidas para movimentações.
 - [Decisoes de arquitetura](decisions/README.md): ADRs (registros de decisões).
 
 ## Como manter

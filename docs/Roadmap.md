@@ -8,16 +8,21 @@ Este roadmap e uma proposta inicial, não um compromisso de prazo. Prioridades e
 - [x] Implementar autenticação baseada em Tokens JWT
 - [x] Definir como valores monetários e moeda serão representados.
 - [x] Criar entidade Account
+- [x] Definir os conceitos e regras de negócio de receita e despesa.
 
 ## Em andamento
 
-- [ ] Definir os conceitos e regras de negócio de receita, despesa e transferência.
+- [ ] Criar fluxo de criação de conta
 
 ## Proposto
 
 - [ ] Definir a política de exclusão de dados
+- [ ] Criar estratégias de Reembolso.
 - [ ] Definir o formato e a politica de expiracao/renovacao dos tokens.
 - [ ] Definir as primeiras permissões do sistema e criar a tabela permissions no banco de dados
+- [ ] Definir os conceitos e regras de negócio de uma transferência.
+- [ ] Criar estratégias de Transação Recorrente 
+- [ ] Criar Agendamento de Transações.
 
 ### 3. Organizar e consultar dados financeiros
 

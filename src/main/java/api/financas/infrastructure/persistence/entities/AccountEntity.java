@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -35,5 +37,8 @@ public class AccountEntity {
 
   @Column(name = "updated_at", nullable = false)
   private Instant updatedAt;
+
+  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+  private Set<TransactionEntity> transactions;
 
 }

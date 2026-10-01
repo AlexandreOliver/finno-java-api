@@ -6,6 +6,7 @@ Decisões arquiteturais significativas devem ser registradas como ADR (*Architec
 
 - [ADR 0001: Autenticacao stateless com JWT](0001-jwt-stateless-authentication.md)
 - [ADR 0002: Valores monetários serão encapsulados em Value Object](0002-money-value-objects.md)
+- [ADR 0003: Receitas e Despesas](0003-expenses-and-revenues.md)
 
 ## Modelo para novas decisões
 

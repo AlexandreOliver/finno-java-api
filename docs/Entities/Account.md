@@ -16,6 +16,7 @@ Representa uma conta associada a um user.
 ## Regras e comportamento atual
 
 - Os valores monetários serão salvos em centavos, por isso balance é do tipo Integer no banco de dados.
+- Um único [User](./User.md) pode ter várias contas associadas a si.
 
 ## Persistência e codigo
 
