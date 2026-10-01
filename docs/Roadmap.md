@@ -7,14 +7,15 @@ Este roadmap e uma proposta inicial, não um compromisso de prazo. Prioridades e
 - [x] Estrutura inicial da API e persistência PostgreSQL com migrações Flyway.
 - [x] Implementar autenticação baseada em Tokens JWT
 - [x] Definir como valores monetários e moeda serão representados.
+- [x] Criar entidade Account
 
 ## Em andamento
 
 - [ ] Definir os conceitos e regras de negócio de receita, despesa e transferência.
-- [ ] Criar entidade Account
 
 ## Proposto
 
+- [ ] Definir a política de exclusão de dados
 - [ ] Definir o formato e a politica de expiracao/renovacao dos tokens.
 - [ ] Definir as primeiras permissões do sistema e criar a tabela permissions no banco de dados
 

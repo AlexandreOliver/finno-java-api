@@ -12,6 +12,6 @@ Este diretório registra o comportamento atual do sistema e as decisões que ori
 ## Como manter
 
 - Atualize o fluxo e a entidade quando o comportamento ou o modelo mudar.
-- Registre decisões importantes em um ADR quando forem tomadas; nao use ADR para ideias ainda em discussão.
+- Registre decisões importantes em um ADR quando forem tomadas; não use ADR para ideias ainda em discussão.
 - No roadmap, mova itens entre **Proposto**, **Em andamento** e **Concluído**. Evite estimativas de data sem planejamento explicito.
 - Prefira documentar o motivo e as consequências de uma decisão, em vez de repetir detalhes óbvios do codigo.

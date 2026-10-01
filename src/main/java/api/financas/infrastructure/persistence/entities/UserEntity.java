@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -48,6 +49,9 @@ public class UserEntity implements UserDetails {
   @NotNull
   @Column(name = "updated_at", nullable = false)
   private Instant updatedAt;
+
+  @OneToMany(mappedBy = "ownerId",  cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+  public Set<AccountEntity> accounts;
 
   @Override
   public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
