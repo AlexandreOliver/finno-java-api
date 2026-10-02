@@ -1,9 +1,12 @@
 package api.financas.infrastructure.persistence.jpa;
 
+import api.financas.domain.entities.Account;
 import api.financas.domain.entities.User;
 import api.financas.domain.interfaces.IUserRepository;
 import api.financas.domain.valueobject.Email;
+import api.financas.infrastructure.persistence.AccountMapper;
 import api.financas.infrastructure.persistence.UserMapper;
+import api.financas.infrastructure.persistence.entities.AccountEntity;
 import api.financas.infrastructure.persistence.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,15 +19,47 @@ import java.util.UUID;
 @Repository
 @AllArgsConstructor
 public class UserRepository implements IUserRepository {
-
+  private final UserMapper userMapper;
+  private final AccountMapper accountMapper;
   private final JPARepositoryUser jpaRepositoryUser;
 
   @Override
   public User save(User user) {
+    UserEntity entity;
 
-    UserEntity userEntity = jpaRepositoryUser.save(UserMapper.mapper(user));
+    if (user.getId() == null) {
+      entity = new UserEntity();
+    } else {
+      entity = jpaRepositoryUser
+          .findById(user.getId())
+          .orElseGet(UserEntity::new);
+    }
 
-    return UserMapper.mapper(userEntity);
+    userMapper.mapDomainToEntity(user, entity);
+
+    UserEntity userEntity = jpaRepositoryUser.save(entity);
+
+    return userMapper.toDomain(userEntity);
+  }
+
+  @Override
+  public User createUserWithAccount(User user, Account account) {
+    UserEntity userEntity = new UserEntity();
+    AccountEntity accountEntity = new AccountEntity();
+
+    accountMapper.mapDomainToEntity(account, accountEntity);
+    userMapper.mapDomainToEntity(user, userEntity);
+
+    userEntity.addAccount(accountEntity);
+
+    UserEntity saved = this.jpaRepositoryUser.save(userEntity);
+
+    return userMapper.toDomain(saved);
+  }
+
+  @Override
+  public Optional<User> findById(UUID id) {
+    return jpaRepositoryUser.findById(id).map(userMapper::toDomain);
   }
 
   @Override
@@ -38,7 +73,7 @@ public class UserRepository implements IUserRepository {
 
     List<UserEntity> users = jpaRepositoryUser.findAll();
 
-    return users.stream().map(UserMapper::mapper).toList();
+    return users.stream().map(userMapper::toDomain).toList();
   }
 
   @Override
@@ -48,6 +83,6 @@ public class UserRepository implements IUserRepository {
 
   @Override
   public Optional<User> findByEmail(Email email) {
-    return jpaRepositoryUser.findByEmail(email.value()).map(UserMapper::mapper);
+    return jpaRepositoryUser.findByEmail(email.value()).map(userMapper::toDomain);
   }
 }

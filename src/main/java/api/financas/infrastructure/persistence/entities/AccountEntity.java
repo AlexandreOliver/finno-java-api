@@ -3,10 +3,12 @@ package api.financas.infrastructure.persistence.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,9 +27,11 @@ public class AccountEntity {
   @Column(name = "label", nullable = false)
   private String label;
 
-  @ManyToOne()
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "owner_id",  nullable = false)
-  private UserEntity ownerId;
+  private UserEntity owner;
 
   @Column(name = "balance", nullable = false)
   private Integer balance;
@@ -39,6 +43,6 @@ public class AccountEntity {
   private Instant updatedAt;
 
   @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-  private Set<TransactionEntity> transactions;
+  private Set<TransactionEntity> transactions = new HashSet<>();
 
 }

@@ -9,10 +9,11 @@ Este roadmap e uma proposta inicial, não um compromisso de prazo. Prioridades e
 - [x] Definir como valores monetários e moeda serão representados.
 - [x] Criar entidade Account
 - [x] Definir os conceitos e regras de negócio de receita e despesa.
+- [x] Criar fluxo de criação de conta
 
 ## Em andamento
 
-- [ ] Criar fluxo de criação de conta
+- 
 
 ## Proposto
 

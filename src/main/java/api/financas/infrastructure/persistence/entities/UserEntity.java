@@ -3,18 +3,13 @@ package api.financas.infrastructure.persistence.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -50,8 +45,16 @@ public class UserEntity implements UserDetails {
   @Column(name = "updated_at", nullable = false)
   private Instant updatedAt;
 
-  @OneToMany(mappedBy = "ownerId",  cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-  public Set<AccountEntity> accounts;
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  @OneToMany(mappedBy = "owner",  cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+  public Set<AccountEntity> accounts = new HashSet<>();
+
+
+  public void addAccount(AccountEntity account) {
+    this.accounts.add(account);
+    account.setOwner(this);
+  }
 
   @Override
   public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {

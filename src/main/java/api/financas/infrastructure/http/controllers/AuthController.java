@@ -1,7 +1,7 @@
 package api.financas.infrastructure.http.controllers;
 
+import api.financas.application.usecases.RegistrationUseCase;
 import api.financas.application.user.dtos.UserCreateDTO;
-import api.financas.application.user.UserService;
 import api.financas.domain.valueobject.Email;
 import api.financas.infrastructure.http.dtos.request.LoginRequest;
 import api.financas.infrastructure.http.dtos.request.RegisterRequest;
@@ -21,7 +21,7 @@ import java.util.*;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-  private final UserService userService;
+  private final RegistrationUseCase registrationUseCase;
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider JwtTokenService;
 
@@ -35,9 +35,9 @@ public class AuthController {
         request.password()
     );
 
-    var user = userService.createUser(userData);
+    var user = registrationUseCase.execute(userData);
 
-    return new RegisterResponse(user.getId(), user.getName(), user.getEmail().value());
+    return new RegisterResponse(user.getId());
   }
 
   @PostMapping("/login")

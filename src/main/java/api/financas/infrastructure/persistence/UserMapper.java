@@ -4,31 +4,35 @@ import api.financas.domain.entities.User;
 import api.financas.domain.valueobject.Email;
 import api.financas.domain.valueobject.PasswordHash;
 import api.financas.infrastructure.persistence.entities.UserEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class UserMapper {
 
-  public static UserEntity mapper(User user) {
-    UserEntity entity = new UserEntity();
+  public User toDomain(UserEntity entity) {
+    User.UserBuilder user = User.builder();
 
-    entity.setName(user.name);
-    entity.setEmail(user.email.value());
-    entity.setPassword(user.password.value());
-    entity.setCreatedAt(user.createdAt);
-    entity.setUpdatedAt(user.updatedAt);
+    user.id(entity.getId());
+    user.name(entity.getName());
+    user.email(Email.of(entity.getEmail()));
+    user.password(PasswordHash.of(entity.getPassword()));
+    user.createdAt(entity.getCreatedAt());
+    user.updatedAt(entity.getUpdatedAt());
 
-    return entity;
+
+    return user.build();
   }
 
-  public static User mapper(UserEntity entity) {
-    System.out.println("Entra no mapper");
-    return User.builder()
-        .id(entity.getId())
-        .email(Email.of(entity.getEmail()))
-        .password(new PasswordHash(entity.getPassword()))
-        .name(entity.getName())
-        .createdAt(entity.getCreatedAt())
-        .updatedAt(entity.getUpdatedAt())
-        .build();
-  }
+  public void mapDomainToEntity(User sourceUser, UserEntity targetEntity) {
 
+    targetEntity.setName(sourceUser.name);
+    targetEntity.setEmail(sourceUser.email.value());
+    targetEntity.setPassword(sourceUser.password.value());
+    targetEntity.setCreatedAt(sourceUser.createdAt);
+    targetEntity.setUpdatedAt(sourceUser.updatedAt);
+
+  }
 }
+

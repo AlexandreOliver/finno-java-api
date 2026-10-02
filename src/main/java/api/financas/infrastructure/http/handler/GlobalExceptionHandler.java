@@ -1,5 +1,6 @@
 package api.financas.infrastructure.http.handler;
 
+import api.financas.application.exception.DuplicatedEmailError;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +15,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(DuplicatedEmailError.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorResponse handleDuplicatedEmailError(DuplicatedEmailError e) {
+    return new ErrorResponse("Use outro email", HttpStatus.BAD_REQUEST.value());
+  }
 
   @ExceptionHandler(BadCredentialsException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
