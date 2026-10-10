@@ -16,9 +16,24 @@ Os endpoints implementados pelo `AuthController` estão sob `/api/v1/auth`.
 `POST /api/v1/auth/login`
 
 1. A API valida email e senha e solicita a autenticação ao `AuthenticationManager`.
-2. Se as credenciais forem validas, `JwtTokenProvider` emite um JWT assinado com HS256.
-3. O token inclui o email como subject, o identificador do usuário e a expiração configurada.
-4. A resposta retorna o token.
+2. Se as credenciais forem válidas, `JwtTokenProvider` emite um JWT assinado com HS256 e `RefreshTokenService` cria um refresh token opaco.
+3. A resposta retorna `accessToken`, `refreshToken`, `tokenType` e `expiresIn`.
+4. A validade do access token é configurável por `JWT_EXPIRATION_SECONDS` (padrão: 15 minutos); a do refresh token é configurável por `JWT_REFRESH_EXPIRATION_SECONDS` (padrão: 30 dias).
+
+## Renovação
+
+`POST /api/v1/auth/refresh`
+
+1. O cliente envia o refresh token atual no corpo JSON como `refreshToken`.
+2. A API compara o hash SHA-256 com os registros persistidos.
+3. Se válido, revoga o token apresentado e emite um novo refresh token e access token. A expiração absoluta da sessão não é estendida.
+4. Um refresh token revogado ou expirado não pode ser renovado. A reutilização de um token revogado revoga a família da sessão.
+
+## Logout
+
+`POST /api/v1/auth/logout`
+
+O cliente envia o refresh token da sessão no corpo JSON. A API revoga todos os refresh tokens ativos dessa família. Access tokens já emitidos continuam válidos até expirarem.
 
 ## Acesso autenticado
 
@@ -32,3 +47,4 @@ Para rotas protegidas, o cliente deve enviar o token no cabeçalho `Authorizatio
 - `infrastructure/security/SecurityConfiguration.java`
 - `infrastructure/security/JwtTokenProvider.java`
 - `infrastructure/security/JWTRequestFilter.java`
+- `infrastructure/security/RefreshTokenService.java`

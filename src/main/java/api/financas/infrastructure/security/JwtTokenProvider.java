@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,13 +18,14 @@ import java.util.Optional;
 
 @Component
 public class JwtTokenProvider {
+  @Getter
   private final long expirationSeconds;
   private final Algorithm algorithm;
 
   public JwtTokenProvider(
       @Value("${security.jwt.secret}")
       String secret,
-      @Value("${security.jwt.expiration-seconds:3600}")
+      @Value("${security.jwt.expiration-seconds:900}")
       long expirationSeconds
       ) {
 
@@ -36,6 +38,10 @@ public class JwtTokenProvider {
 
     UserEntity user = (UserEntity) Objects.requireNonNull(authentication.getPrincipal());
 
+    return generateToken(user);
+  }
+
+  public String generateToken(UserEntity user) {
     return JWT.create()
         .withIssuer("finno-api")
         .withClaim("userId", user.getId().toString())

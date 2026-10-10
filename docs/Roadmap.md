@@ -10,16 +10,16 @@ Este roadmap e uma proposta inicial, não um compromisso de prazo. Prioridades e
 - [x] Criar entidade Account
 - [x] Definir os conceitos e regras de negócio de receita e despesa.
 - [x] Criar fluxo de criação de conta
+- [x] Definir o formato e a politica de expiracao/renovacao dos tokens.
 
 ## Em andamento
 
-- 
+- [ ] Criar endpoints para Criar, Deletar e Listar Movimentações Financeiras 
 
 ## Proposto
 
 - [ ] Definir a política de exclusão de dados
 - [ ] Criar estratégias de Reembolso.
-- [ ] Definir o formato e a politica de expiracao/renovacao dos tokens.
 - [ ] Definir as primeiras permissões do sistema e criar a tabela permissions no banco de dados
 - [ ] Definir os conceitos e regras de negócio de uma transferência.
 - [ ] Criar estratégias de Transação Recorrente 

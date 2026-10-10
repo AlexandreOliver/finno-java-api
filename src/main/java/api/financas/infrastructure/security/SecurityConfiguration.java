@@ -1,7 +1,6 @@
 package api.financas.infrastructure.security;
 
 import jakarta.servlet.DispatcherType;
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +14,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import tools.jackson.databind.ObjectMapper;
+
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +33,7 @@ public class SecurityConfiguration {
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(ex -> ex
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .authenticationEntryPoint(authenticationEntryPoint())
             .accessDeniedHandler(((request, response, accessDeniedException) -> {
               response.setStatus(HttpStatus.FORBIDDEN.value());
             }))
@@ -40,6 +42,8 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
             .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/v1/auth/refresh").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/v1/auth/logout").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
@@ -53,6 +57,15 @@ public class SecurityConfiguration {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public AuthenticationEntryPoint authenticationEntryPoint() {
+    return (request, response, authException) -> {
+      response.setStatus(HttpStatus.UNAUTHORIZED.value());
+      response.setContentType("application/json;charset=UTF-8");
+      response.getWriter().write(new ObjectMapper().writeValueAsString(Map.of("message", "Faça login e tente novamente.")));
+    };
   }
 
 //  @Bean

@@ -62,7 +62,8 @@ docker compose up -d
 # 2. Configurar variáveis de ambiente
 #    - DB_USERNAME, DB_PASSWORD
 #    - JWT_SECRET: chave aleatória Base64 com pelo menos 256 bits
-#    - JWT_EXPIRATION_SECONDS (opcional; padrão 3600)
+#    - JWT_EXPIRATION_SECONDS (opcional; padrão 900)
+#    - JWT_REFRESH_EXPIRATION_SECONDS (opcional; padrão 2592000)
 
 # 3. Rodar a aplicação
 ./mvnw spring-boot:run
@@ -73,7 +74,10 @@ A chave JWT pode ser gerada com `openssl rand -base64 32`. Nunca use uma chave d
 ### Autenticação
 
 - `POST /api/v1/auth/register` - Para criar um usuario forneça `email`, `nome` e `senha`.
-- `POST /api/v1/auth/login` -  Login com `email` e `password` e retorna o accessToken.
+- `POST /api/v1/auth/login` - Login com `email` e `password`; retorna access token e refresh token.
+- `POST /api/v1/auth/refresh` - Rotaciona o refresh token e retorna um novo par de tokens.
+- `POST /api/v1/auth/logout` - Revoga a família de refresh tokens da sessão.
+- Para renovar tokens e consultar os corpos das requisições, veja o [fluxo de autenticação](docs/flows/authentication.md).
 - Envie `Authorization: Bearer <accessToken>` nas demais rotas; sem token válido elas respondem `401`.
 
 ---
