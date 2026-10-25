@@ -10,7 +10,7 @@ Representa uma movimentação financeira executada.
 | `description` | `String`          | varchar(200) | Descrição da movimentação.                                              |
 | `type`        | `TypeTransaction` | varchar      | `SAIDA` para despesa ou `ENTRADA` para receita.                         |
 | `amount`      | `Money`           | Integer      | Valor encapsulado pelo value object `Money`.                            |
-| `account`     | `Account`         | account_id   | Conta à qual a movimentação está associada.                             |
+| `accountId`   | `UUID`            | account_id   | Conta à qual a movimentação está associada.                             |
 | `paidAt`      | `Instant`         | timestamp    | Data da execução no formato `YYYY-MM-DDTHH:MM:SS`; não pode ser futura. |
 | `category`    | `Category`        | category_id  | Categoria da transação.                                                 |
 

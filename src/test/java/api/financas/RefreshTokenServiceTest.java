@@ -1,10 +1,10 @@
 package api.financas;
 
-import api.financas.infrastructure.persistence.entities.RefreshTokenEntity;
-import api.financas.infrastructure.persistence.entities.UserEntity;
-import api.financas.infrastructure.persistence.jpa.JPARepositoryRefreshToken;
-import api.financas.infrastructure.security.JwtTokenProvider;
-import api.financas.infrastructure.security.RefreshTokenService;
+import api.financas.entity.RefreshTokenEntity;
+import api.financas.entity.UserEntity;
+import api.financas.persistence.RefreshTokenRepository;
+import api.financas.services.auth.JwtTokenProvider;
+import api.financas.services.auth.RefreshTokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RefreshTokenServiceTest {
   @Mock
-  private JPARepositoryRefreshToken refreshTokenRepository;
+  private RefreshTokenRepository refreshTokenRepository;
 
   @Mock
   private JwtTokenProvider jwtTokenProvider;

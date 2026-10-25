@@ -8,6 +8,7 @@ Decisões arquiteturais significativas devem ser registradas como ADR (*Architec
 - [ADR 0002: Valores monetários serão encapsulados em Value Object](0002-money-value-objects.md)
 - [ADR 0003: Receitas e Despesas](0003-expenses-and-revenues.md)
 - [ADR 0004: Rotação de refresh tokens](0004-refresh-token-rotation.md)
+- [ADR 0005: Arquitetura em camadas simplificada](0005-simplified-layered-architecture.md)
 
 ## Modelo para novas decisões
 

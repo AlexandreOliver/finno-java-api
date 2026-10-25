@@ -27,29 +27,26 @@ API REST para Sistema de Gestão Financeira Pessoal. Projeto de portfólio const
 
 ## Arquitetura
 
-O código atual está organizado em `domain`, `application` e `infrastructure`.
+O fluxo principal segue uma arquitetura em camadas simples:
 
-```
-api.financas
- ├─ FinancasApplication.java
- ├─ application/        → Casos de Uso, Serviços e Orquestração
- ├─ domain/
- │   ├─ entities/       → modelos de domínio
- │   ├─ valueobject/    → Objetos de valor que encapsulam logicas uteis
- │   └─ interfaces/     → contratos do domínio
- └─ infrastructure/
-     ├─ http/
-     │   └─ controllers/  → endpoints REST (LoginController)
-     └─ persistence/
-         ├─ entities/   → entidades JPA
-         ├─ jpa/        → acesso ao banco e implementações dos repositorios
-         └─ UserMapper.java
+```text
+HTTP → Controller → Service → Repository → Entity (JPA) → PostgreSQL
+          ↕
+         DTOs
 ```
 
-### Decisões de arquitetura relevantes
+- **Controllers** recebem requisições HTTP, validam DTOs e formam as respostas.
+- **Services** coordenam os casos de uso e as regras de negócio.
+- **Repositories** consultam e persistem dados.
+- **Entities** representam o modelo de persistência JPA.
+- **DTOs** definem os contratos da API; entities não devem ser retornadas diretamente.
 
-- **Migrações**: Banco de dados versionado usando Flyway para garantir integridade
-- **Autenticação**: o caso de uso de login depende de uma porta de geração de token; emissão e validação JWT ficam na infraestrutura.
+Value objects e modelos de domínio separados são usados quando tornam uma regra mais clara ou segura, sem serem exigidos para toda funcionalidade. A estrutura atual dos pacotes está em `src/main/java/api/financas/`: `controllers`, `services`, `persistence`, `entity`, `dtos`, além de `domain` e `enums`.
+
+Essa abordagem substitui a separação mais estrita anterior. A decisão e seus trade-offs estão registrados na [ADR 0005](docs/decisions/0005-simplified-layered-architecture.md). Outras decisões relevantes incluem:
+
+- **Migrações**: banco de dados versionado com Flyway.
+- **Autenticação**: access tokens JWT e refresh tokens rotacionados, conforme as [ADRs de autenticação](docs/decisions/README.md).
 
 ---
 

@@ -21,6 +21,6 @@ Representa uma conta associada a um user.
 
 ## Persistência e codigo
 
-- Tabela: `account`, criada em `src/main/resources/db/migration/V2__create-accounts-table.sql`.
+- Tabela: `accounts`, criada em `src/main/resources/db/migration/V2__create-accounts-table.sql`.
 - Modelo de domínio: `src/main/java/api/financas/domain/entities/Account.java`.
 - Mapeamento JPA: `src/main/java/api/financas/infrastructure/persistence/entities/AccountEntity.java`.
